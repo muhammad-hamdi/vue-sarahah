@@ -12,31 +12,20 @@
                     </div>
                     <br>
                     <br>
-                    <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="email"><i class="fa fa-user fa-2x"></i></label>
-                        <div class="col-sm-10">
-                        <input type="email" class="form-control" id="email" placeholder="Enter email">
+                    <form @submit.prevent="login">
+                        <div class="md-form">
+                            <i class="fa fa-envelope prefix grey-text"></i>
+                            <input type="text" id="defaultForm-email" class="form-control" placeholder="Your email" v-model="user.email">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="pwd"><i class="fa fa-lock fa-2x"></i></label>
-                        <div class="col-sm-10"> 
-                        <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+
+                        <div class="md-form">
+                            <i class="fa fa-lock prefix grey-text"></i>
+                            <input type="password" id="defaultForm-pass" class="form-control" placeholder="Your password" v-model="user.password">
                         </div>
-                    </div>
-                    <div class="form-group"> 
-                        <div class="col-sm-offset-2 col-sm-10">
-                        <div class="checkbox">
-                            <label><input type="checkbox"> Remember me</label>
+
+                        <div class="text-center">
+                            <button class="btn btn-default">Login</button>
                         </div>
-                        </div>
-                    </div>
-                    <div class="form-group"> 
-                        <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary">Login</button>
-                        </div>
-                    </div>
                     </form>
                 </div>
             </div>
@@ -46,7 +35,40 @@
 </template>
 
 <script>
-    
+    import {api} from '../../../config/axios'
+    export default {
+        data() {
+            return {
+                user: {
+                    email: '',
+                    password: ''
+                }
+            }
+        },
+        created() {
+            this.check();
+        },
+        methods: {
+            check(){
+                if (localStorage.getItem('token')) {
+                    this.$router.push('/')
+                } else {
+                    return;
+                }
+            },
+            login() {
+                api.post('login', this.user)
+                    .then((res) => {
+                        localStorage.setItem('token', res.data.token);
+                        localStorage.setItem('user_id', res.data.user_id);
+                        this.$router.push('/');
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+            }
+        }
+    }
 </script>
 
 <style scoped>

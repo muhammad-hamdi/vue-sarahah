@@ -1,5 +1,5 @@
 <template>
-<nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-sticky">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -9,30 +9,30 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">
-          <img alt="Brand" src="../../assets/logo.png">
-      </a>
+      <router-link to="/main" class="navbar-brand">
+        <img alt="Brand" src="../../assets/logo.png">
+      </router-link>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li v-if="!token"><router-link to="/register">Register</router-link></li>
         <li v-if="!token"><router-link to="/login">Login</router-link></li>
-        <li><router-link to="/join">Abput Us</router-link></li>
-        <li><router-link to="/join">Contact Us</router-link></li>
-        <li class="dropdown" v-if="token">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
+        <li><router-link to="/join">About Us</router-link></li>
+        <li><router-link to="/join">About Us</router-link></li>
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li @click="logOut"><a href="#"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+          <li><a href="#"><i class="fa fa-cog"></i> Profile Settings</a></li>
+          <li class="divider"></li>
+          <li><a href="https://github.com/muhammad-hamdi" target="_blank"><i class="fa fa-github"></i>  GitHub</a></li>          
+        </ul>
+      </li>
       </ul>
     </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+  </div><!-- /.container -->
 </nav>
 </template>
 
@@ -43,5 +43,11 @@
                 token: localStorage.getItem('token'),
             };
         },
+        methods: {
+          logOut() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user_id');
+          }
+        }
     }
 </script>

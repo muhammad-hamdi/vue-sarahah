@@ -94,8 +94,9 @@
                 } else {
                     api.post('register', this.user)
                     .then((res) => {
-                        localStorage.setItem('token', res.token);
-                        localStorage.setItem('user_id', res.user_id);
+                        localStorage.setItem('token', res.data.token);
+                        localStorage.setItem('user_id', res.data.user_id);
+                        this.$router.push('/')
                     })
                     .catch((err) => {
                         console.log(err);
